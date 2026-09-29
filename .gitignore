@@ -4,3 +4,6 @@ motion/dist/
 motion/package-lock.json
 motion/out/video-only.mp4
 motion/out/sound.wav
+motion/out/v2-video-only.mp4
+motion/out/sound-v2.wav
+motion/inputs/
