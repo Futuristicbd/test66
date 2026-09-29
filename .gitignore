@@ -1,0 +1,6 @@
+motion/node_modules/
+motion/work/
+motion/dist/
+motion/package-lock.json
+motion/out/video-only.mp4
+motion/out/sound.wav
