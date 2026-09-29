@@ -7,3 +7,8 @@ motion/out/sound.wav
 motion/out/v2-video-only.mp4
 motion/out/sound-v2.wav
 motion/inputs/
+motion/out/v3-video-only.mp4
+motion/out/sound-v3-raw.wav
+motion/out/sound-v3.wav
+motion/out/_seg*
+motion/out/_segs.txt
