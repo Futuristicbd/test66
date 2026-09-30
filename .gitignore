@@ -15,3 +15,4 @@ motion/out/_segs.txt
 motion/out/v4-video-only.mp4
 motion/out/sound-v4-raw.wav
 motion/out/sound-v4.wav
+motion/__pycache__/
