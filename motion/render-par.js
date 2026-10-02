@@ -6,8 +6,9 @@ const {chromium}=require('playwright');const {spawn,execFileSync}=require('child
 const [html,out,fpsA='60',kA='6',wA='4']=process.argv.slice(2);
 const FPS=+fpsA, K=+kA, NW=+wA, SH=0.5/FPS, CH=FPS;   // 180° shutter, 1-second chunks
 const dir=path.join('work','chunks-'+path.basename(out,'.mp4')); fs.mkdirSync(dir,{recursive:true});
+let VW=1080,VH=1920;
 async function worker(id,queue){
-  const b=await chromium.launch();const p=await b.newPage({viewport:{width:1080,height:1920}});
+  const b=await chromium.launch({executablePath:process.env.CHROMIUM||undefined});const p=await b.newPage({viewport:{width:VW,height:VH}});
   const errs=[];p.on('pageerror',e=>errs.push(e.message));
   await p.goto('file://'+path.resolve(html)+'?render');await p.evaluate(()=>document.fonts.ready);
   const vf=`format=gbrp,tmix=frames=${K}:weights='${Array(K).fill(1).join(' ')}',select='eq(mod(n\\,${K})\\,${K-1})',setpts=N/(${FPS})/TB`;
@@ -23,8 +24,8 @@ async function worker(id,queue){
   await b.close(); if(errs.length) console.log(`w${id} ERR`,errs[0]);
 }
 (async()=>{
-  const b=await chromium.launch();const p=await b.newPage();await p.goto('file://'+path.resolve(html)+'?render');
-  const T=await p.evaluate(()=>window.DURATION);await b.close();
+  const b=await chromium.launch({executablePath:process.env.CHROMIUM||undefined});const p=await b.newPage();await p.goto('file://'+path.resolve(html)+'?render');
+  const [T,vw,vh]=await p.evaluate(()=>[window.DURATION,window.VW||1080,window.VH||1920]);await b.close(); VW=vw; VH=vh;
   const N=Math.round(T*FPS), NC=Math.ceil(N/CH), queue=[];
   for(let c=0;c<NC;c++){const seg=path.join(dir,`c${String(c).padStart(3,'0')}.mp4`); if(!fs.existsSync(seg)) queue.push([c,c*CH,Math.min(N,(c+1)*CH)]);}
   console.log(`${NC-queue.length}/${NC} chunks already done, rendering ${queue.length}`);

@@ -1,7 +1,8 @@
 """Shared synth + sound-effect toolkit (48 kHz stereo buses, helpers). Import with `from sfxlib import *`."""
 import numpy as np
 from scipy import signal
-SR = 48000; T = 25.0; N = int(SR * T)
+import os
+SR = 48000; T = float(os.environ.get('SFX_T', 25.0)); N = int(SR * T)
 rng = np.random.default_rng(3)
 t_all = np.arange(N) / SR
 MUS = np.zeros((N, 2)); SFX = np.zeros((N, 2)); VERB = np.zeros((N, 2))

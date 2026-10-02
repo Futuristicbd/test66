@@ -1,0 +1,256 @@
+<!doctype html><html><head><meta charset="utf-8"><title>Corporate Omnibus Coverage</title>
+<style>
+@font-face{font-family:'Geist';src:url(data:font/woff2;base64,__GEIST__) format('woff2');font-weight:100 900}
+@font-face{font-family:'Geist Mono';src:url(data:font/woff2;base64,__GEISTMONO__) format('woff2');font-weight:100 900}
+html,body{margin:0;background:#F3F6FB;overflow:hidden}
+body.preview{background:#111;height:100vh}
+body.preview #wrap{position:fixed;left:50%;top:50%}
+#stage{position:relative;width:1920px;height:1080px;overflow:hidden;background:#F3F6FB;font-family:'Geist',system-ui,sans-serif;-webkit-font-smoothing:antialiased;color:#0B2238;font-weight:500;letter-spacing:-.035em}
+.a{position:absolute;left:0;top:0}
+.t{position:absolute;left:0;top:0;white-space:nowrap}
+.S{position:absolute;left:0;top:0;width:1920px;height:1080px}
+.w{display:inline-block;white-space:pre}
+.g{background:linear-gradient(95deg,#1C6FE0 0%,#3D92F5 45%,#62BCFF 100%);-webkit-background-clip:text;background-clip:text;color:transparent;padding:0 .04em}
+.mono{font-family:'Geist Mono',ui-monospace,monospace;letter-spacing:.16em;font-weight:500}
+.chip{font-family:'Geist Mono',ui-monospace,monospace;letter-spacing:.16em;font-weight:500;font-size:20px;color:#084268;padding:10px 20px;border-radius:999px;background:rgba(255,255,255,.82);box-shadow:0 0 0 1.5px rgba(98,188,255,.55) inset,0 10px 30px -14px rgba(20,80,170,.35)}
+.card{border-radius:22px;overflow:hidden;border:10px solid #fff;box-sizing:border-box;background:#DCE7F5;box-shadow:0 60px 100px -45px rgba(20,80,170,.5),0 14px 34px -14px rgba(20,80,170,.28)}
+.card img{display:block;width:100%;height:100%;object-fit:cover;transform-origin:50% 50%}
+svg{display:block;overflow:visible}
+</style></head><body><div id="wrap"><div id="stage"></div></div>
+<script>
+/* FuturisticBD — Corporate Omnibus event-coverage film (16:9).
+   Story: for the first time in Chattogram → Corporate Omnibus → an empty hall becomes a full house →
+   40+ companies → voices that inspired → moments of honour → conversations that open doors →
+   one community, one story → "Every event has a story. We capture it." → FuturisticBD.
+   Language: pale light-blue ground, gradient keywords, white-bordered photo prints that land with a
+   camera flash, and a camera viewfinder (REC, timecode, shot counter) over the whole coverage. */
+const S=document.getElementById('stage');
+const W=1920,H=1080,CX=960,T=44.6,HOLD=43.6;
+const INK='#0B2238', NAVY='#084268', MUTE='#5E7190', BLUE='#1C6FE0', SKY='#62BCFF';
+const GRAD='linear-gradient(120deg,#1C6FE0 0%,#3D92F5 50%,#62BCFF 100%)';
+const clamp=(x,a=0,b=1)=>Math.min(b,Math.max(a,x)), lerp=(a,b,u)=>a+(b-a)*u;
+const eo3=x=>1-Math.pow(1-clamp(x),3);
+const eio=x=>{x=clamp(x);return x<.5?4*x*x*x:1-Math.pow(-2*x+2,3)/2};
+const eio5=x=>{x=clamp(x);return x<.5?16*x**5:1-Math.pow(-2*x+2,5)/2};
+const eiX=x=>{x=clamp(x);return x<=0?0:Math.pow(2,10*x-10)};
+const SPR=(tau,w=11,z=.62)=>{if(tau<=0)return 0;if(z<1){const wd=w*Math.sqrt(1-z*z);return 1-Math.exp(-z*w*tau)*(Math.cos(wd*tau)+z*w/wd*Math.sin(wd*tau));}return 1-Math.exp(-w*tau)*(1+w*tau);};
+const mk=(p,html,css='',cls='a')=>{const d=document.createElement('div');d.className=cls;d.style.cssText+=css;d.innerHTML=html;p.appendChild(d);return d;};
+const show=(e,o)=>{if(o<=0.003){e.style.display='none';return false;}e.style.display='';e.style.opacity=clamp(o).toFixed(4);return true;};
+function put(e,{x=0,y=0,s=1,r=0,o=1,b=0,ax='c'}={}){
+  if(!show(e,o))return false;
+  e.style.transform=`translate(${x.toFixed(2)}px,${y.toFixed(2)}px) translate(${ax=='l'?'0':'-50%'},-50%) scale(${s.toFixed(4)}) rotate(${r.toFixed(2)}deg)`;
+  e.style.filter=b>0.05?`blur(${b.toFixed(2)}px)`:'none';return true;}
+function words(p,parts,css){const d=mk(p,'',css,'t');const sp=[];parts.forEach(([s,cls,c],i)=>{const e=document.createElement('span');e.className='w'+(cls?' '+cls:'');e.textContent=s+(i<parts.length-1?' ':'');if(c)e.style.cssText+=c;d.appendChild(e);sp.push(e);});return {d,sp};}
+function rv(Wd,t,tin,{st=.12,d=.7,dx=40,dy=0,bl=18}={}){
+  Wd.sp.forEach((e,i)=>{const a=eo3((t-tin-i*st)/d), k=1-a;
+    e.style.opacity=clamp(a*1.3).toFixed(3); e.style.filter=k*bl>.05?`blur(${(k*bl).toFixed(1)}px)`:'none';
+    e.style.transform=`translate(${(k*dx).toFixed(1)}px,${(k*dy).toFixed(1)}px)`;});}
+const PH={p1:'__P1__',p6:'__P6__',p7:'__P7__',p15:'__P15__',p16:'__P16__',p17:'__P17__',p18:'__P18__',p19:'__P19__',p20:'__P20__',p21:'__P21__',p22:'__P22__',p23:'__P23__',p24:'__P24__',p25:'__P25__',p26:'__P26__'};
+const IMG={flame:'__FLAME__',word:'__WORDMARK__',url:'__URL__',flameW:'__FLAMEW__'};
+function card(p,key,w,h,pos='50% 50%'){const d=mk(p,`<img src="${PH[key]}" style="object-position:${pos}">`,`width:${w}px;height:${h}px`,'t card');d.img=d.firstChild;return d;}
+const kb=(c,s,x=0,y=0)=>{c.img.style.transform=`translate(${x.toFixed(1)}px,${y.toFixed(1)}px) scale(${s.toFixed(4)})`;};
+// a print that flies in and lands with a spring; returns the landing progress
+function land(c,t,t0,{x,y,r=0,fx=0,fy=0,fr=0,s0=1.08,out=1e9,ox=0,oy=0,kbs=1.12}){
+  const a=SPR(t-t0,10,.68), v=clamp((t-t0)*3), u=eio((t-out)/.5);
+  put(c,{x:lerp(x+fx,x,a)+ox*u,y:lerp(y+fy,y,a)+oy*u,r:lerp(r+fr,r,a),s:lerp(s0,1,a),o:v*(1-u),b:(1-clamp(a*1.4))*14+u*12});
+  kb(c,lerp(kbs,1,clamp((t-t0)/6)));return a;}
+const STAR=(s,id='')=>`<svg width="${s}" height="${s}" viewBox="-50 -50 100 100"><defs><linearGradient id="sg${id}" x1="0" y1="-1" x2="1" y2="1"><stop offset="0" stop-color="#9FD8FF"/><stop offset="1" stop-color="#1C6FE0"/></linearGradient></defs><path d="M0-50C4-18 18-4 50 0C18 4 4 18 0 50C-4 18-18 4-50 0C-18-4-4-18 0-50Z" fill="url(#sg${id})"/></svg>`;
+const NOISE="data:image/svg+xml;utf8,"+encodeURIComponent("<svg xmlns='http://www.w3.org/2000/svg' width='300' height='300'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='2' stitchTiles='stitch'/><feColorMatrix type='saturate' values='0'/></filter><rect width='100%' height='100%' filter='url(#n)'/></svg>");
+const blob=(p,c,r)=>mk(p,'',`width:${r*2}px;height:${r*2}px;margin:-${r}px 0 0 -${r}px;border-radius:50%;background:radial-gradient(circle, ${c} 0%, rgba(243,246,251,0) 68%)`);
+
+/* camera flashes — every print lands with one (the score has a shutter on each) */
+const FL=[4.3,10.9,14.25,14.95,15.65,19.25,19.75,20.25,24.3,24.48,25.65,29.45,30.05,30.65,33.9,36.25];
+window.FLASHES=FL;
+
+/* ================= ground ================= */
+const G=mk(S,'','width:1920px;height:1080px');
+const BLS=[blob(G,'rgba(160,200,255,.6)',900),blob(G,'rgba(255,255,255,1)',760),blob(G,'rgba(185,215,255,.55)',820)];
+const dots=mk(G,'',`width:1920px;height:1080px;opacity:.5;background-image:radial-gradient(rgba(28,111,224,.16) 1.4px,transparent 1.6px);background-size:44px 44px;-webkit-mask-image:radial-gradient(ellipse at 50% 50%,#000 10%,transparent 75%)`);
+
+/* ================= scenes ================= */
+const SC=[]; const scene=(a,b,fn)=>{const l=mk(S,'','','S');SC.push({l,a,b,fn});return l;};
+
+/* S1 · For the first time, in Chattogram. */
+const s1=scene(0,4.35,(t)=>{
+  const out=eio((t-3.8)/.5);
+  put(s1c,{x:CX,y:330-out*30,o:eo3((t-.2)/.6)*(1-out),b:out*14});
+  rv(s1a,t,.35,{st:.14}); put(s1a.d,{x:CX,y:480-out*40,o:1-out,b:out*18});
+  rv(s1b,t,1.35,{st:.28,d:.9,dx:60,bl:26}); put(s1b.d,{x:CX,y:660-out*40,o:1-out,b:out*18,s:1+.025*clamp((t-1.4)/2.4)});
+  const ln=eio((t-2.3)/.8); s1l.style.width=(560*ln).toFixed(1)+'px'; put(s1l,{x:CX,y:790-out*40,o:(ln>0)*(1-out)});});
+const s1c=mk(s1,'FUTURISTICBD &nbsp;·&nbsp; EVENT COVERAGE','','t chip');
+const s1a=words(s1,[['For'],['the'],['first'],['time,']],'font-size:118px;font-weight:500');
+const s1b=words(s1,[['in'],['Chattogram.','g']],'font-size:178px;font-weight:600;letter-spacing:-.05em');
+const s1l=mk(s1,'',`height:6px;border-radius:3px;background:${GRAD}`,'t');
+
+/* S2 · Corporate Omnibus — the title, surrounded by the day */
+const s2=scene(4.1,8.75,(t)=>{
+  const out=8.2, u=eio((t-out)/.5), dr=clamp((t-4.3)/4);
+  land(s2p[0],t,4.22,{x:330-30*dr,y:290,r:-8,fx:-700,fy:-200,fr:-10,out,ox:-500,oy:-120});
+  land(s2p[1],t,4.34,{x:1600+30*dr,y:280,r:7,fx:700,fy:-220,fr:10,out,ox:500,oy:-120});
+  land(s2p[2],t,4.46,{x:1590+25*dr,y:810,r:-5,fx:700,fy:240,fr:-10,out,ox:500,oy:140});
+  land(s2p[3],t,4.58,{x:330-25*dr,y:800,r:6,fx:-700,fy:240,fr:10,out,ox:-500,oy:140});
+  const a=SPR(t-4.3,9,.75), b2=SPR(t-4.55,9,.75);
+  put(s2t1,{x:CX,y:450-u*50,s:lerp(1.18,1,a)*(1+.02*dr),o:clamp((t-4.3)*4)*(1-u),b:(1-clamp(a))*30+u*20});
+  put(s2t2,{x:CX,y:630-u*50,s:lerp(1.18,1,b2)*(1+.02*dr),o:clamp((t-4.55)*4)*(1-u),b:(1-clamp(b2))*30+u*20});
+  put(s2s,{x:CX,y:790-u*50,o:eo3((t-5.2)/.6)*(1-u),b:u*14});});
+const s2p=[card(s2,'p25',560,373),card(s2,'p20',520,347),card(s2,'p1',600,338,'50% 30%'),card(s2,'p15',540,360)];
+const s2t1=mk(s2,'Corporate','font-size:196px;font-weight:700;letter-spacing:-.06em;line-height:1','t g');
+const s2t2=mk(s2,'Omnibus','font-size:196px;font-weight:300;letter-spacing:-.06em;line-height:1;color:#0B2238','t');
+const s2s=mk(s2,'CAREER FAIR &nbsp;·&nbsp; CHATTOGRAM','','t chip');
+
+/* S3 · It began with an empty hall. Then the doors opened. */
+const s3=scene(8.5,13.55,(t)=>{
+  const out=13.05, u=eio((t-out)/.5), sw=t>=10.9;
+  const a=SPR(t-8.6,9,.75);
+  const cx=lerp(1620,1330,a)-u*300;
+  put(s3c,{x:cx,y:540,r:lerp(4,0,a),s:lerp(.92,1,a),o:clamp((t-8.6)*3)*(1-u),b:(1-clamp(a*1.3))*16+u*16});
+  kb(s3c,1.04+.08*clamp((t-8.6)/2.3),-20*clamp((t-8.6)/2.3),0); s3c.img.style.opacity=sw?0:1;
+  s3f.style.display=sw?'':'none'; if(sw) s3f.style.transform=`scale(${(1.14-.1*eo3((t-10.9)/2.6)).toFixed(4)})`;
+  put(s3k,{x:cx-500,y:270,ax:'l',o:clamp((t-9)*3)*(1-u)}); s3k.innerHTML=sw?'AFTER &nbsp;·&nbsp; FULL HOUSE':'BEFORE';
+  const o1=eio((t-10.55)/.35);
+  rv(s3a1,t,8.85); put(s3a1.d,{x:140,y:440,ax:'l',o:1-o1,b:o1*16});
+  rv(s3a2,t,9.15,{st:.16}); put(s3a2.d,{x:140,y:530,ax:'l',o:1-o1,b:o1*16});
+  rv(s3b1,t,11.0); put(s3b1.d,{x:140,y:420,ax:'l',o:1-u,b:u*16});
+  rv(s3b2,t,11.35,{d:.9,dx:60,bl:26}); put(s3b2.d,{x:130,y:560,ax:'l',o:1-u,b:u*16});});
+const s3c=card(s3,'p16',1000,620);
+const s3f=mk(s3c,`<img src="${PH.p15}" style="position:absolute;left:0;top:0">`,'width:100%;height:100%;overflow:hidden');s3f.firstChild.style.cssText+='width:100%;height:100%;object-fit:cover';
+const s3k=mk(s3,'BEFORE','','t chip');
+const s3a1=words(s3,[['It'],['began'],['with']],'font-size:76px;font-weight:400;color:#5E7190');
+const s3a2=words(s3,[['an'],['empty'],['hall.']],'font-size:84px;font-weight:600');
+const s3b1=words(s3,[['Then'],['the'],['doors']],'font-size:76px;font-weight:400;color:#5E7190');
+const s3b2=words(s3,[['opened.','g']],'font-size:168px;font-weight:700;letter-spacing:-.055em');
+
+/* S4 · 40+ companies */
+const s4=scene(13.3,18.75,(t)=>{
+  const out=18.25, u=eio((t-out)/.5), dr=clamp((t-15.6)/2.6);
+  const n=Math.round(40*eo3((t-13.6)/1.25));
+  s4n.firstChild.textContent=n; const pl=SPR(t-14.85,12,.5);
+  s4n.lastChild.style.display=t>=14.85?'':'none'; s4n.lastChild.style.transform=`scale(${pl.toFixed(3)})`;
+  put(s4n,{x:520,y:440-u*40,o:clamp((t-13.5)*4)*(1-u),b:u*18,s:1+.02*dr});
+  rv(s4a,t,14.2); put(s4a.d,{x:520,y:640-u*40,o:1-u,b:u*16});
+  rv(s4b,t,14.6,{st:.06}); put(s4b.d,{x:520,y:730-u*40,o:1-u,b:u*16});
+  land(s4p[0],t,14.0,{x:1270-20*dr,y:400,r:-7,fx:500,fy:700,fr:14,out,ox:700});
+  land(s4p[1],t,14.7,{x:1490-10*dr,y:520,r:6,fx:500,fy:700,fr:14,out,ox:700});
+  land(s4p[2],t,15.4,{x:1330+10*dr,y:700,r:-2,fx:500,fy:700,fr:14,out,ox:700});});
+const s4n=mk(s4,'<span>0</span><span style="display:inline-block;transform-origin:20% 70%">+</span>','font-size:300px;font-weight:700;letter-spacing:-.06em;line-height:1','t g');
+const s4a=words(s4,[['companies.']],'font-size:96px;font-weight:600');
+const s4b=words(s4,[['Leading'],['local'],['&'],['multinational'],['firms.']],'font-size:36px;font-weight:400;color:#5E7190;letter-spacing:-.01em');
+const s4p=[card(s4,'p24',680,453),card(s4,'p23',680,453),card(s4,'p25',720,480)];
+
+/* S5 · Voices that inspired. */
+const s5=scene(18.5,24.05,(t)=>{
+  const out=23.5, u=eio((t-out)/.5), pan=-50*clamp((t-19.2)/4.3);
+  rv(s5h,t,18.7,{st:.14}); put(s5h.d,{x:CX,y:170-u*40,o:1-u,b:u*16});
+  land(s5p[0],t,19.0,{x:470+pan,y:610,r:-3,fx:1500,fr:8,out,oy:120});
+  land(s5p[1],t,19.5,{x:960+pan,y:590,r:1,fx:1100,fr:8,out,oy:120});
+  land(s5p[2],t,20.0,{x:1450+pan,y:610,r:3,fx:900,fr:8,out,oy:120});
+  put(s5c,{x:CX,y:965,o:eo3((t-20.6)/.6)*(1-u)});});
+const s5h=words(s5,[['Voices','g'],['that'],['inspired.']],'font-size:112px;font-weight:600');
+const s5p=[card(s5,'p19',600,450),card(s5,'p21',380,570,'50% 30%'),card(s5,'p17',600,400)];
+const s5c=mk(s5,'INAUGURAL SESSION &nbsp;·&nbsp; KEYNOTES &nbsp;·&nbsp; TALKS','','t chip');
+
+/* S6 · Moments of honour. */
+const s6=scene(23.8,29.05,(t)=>{
+  const out=28.55, u=eio((t-out)/.5);
+  land(s6p[0],t,24.05,{x:660,y:570,r:-3,fy:60,s0:1.18,out,ox:-300});
+  land(s6p[1],t,25.4,{x:1500,y:730,r:5,fx:300,fy:300,fr:10,out,ox:300});
+  rv(s6a,t,24.6); put(s6a.d,{x:1480,y:250-u*30,o:1-u,b:u*16});
+  rv(s6b,t,24.9,{st:.16,d:.9}); put(s6b.d,{x:1480,y:370-u*30,o:1-u,b:u*16});
+  s6s.forEach((e,i)=>{const t0=24.6+i*.35, k=(t-t0); const tw=k>0?Math.max(0,Math.sin(Math.min(k*2.2,Math.PI)))*(.6+.4*Math.sin(k*5+i)):0;
+    put(e,{x:[960,1130,240,1080,420][i],y:[300,560,320,830,880][i],s:.4+.6*tw,r:k*40,o:tw*(1-u)});});});
+const s6p=[card(s6,'p22',940,627),card(s6,'p18',560,373,'50% 25%')];
+const s6a=words(s6,[['Moments']],'font-size:118px;font-weight:600');
+const s6b=words(s6,[['of'],['honour.','g']],'font-size:118px;font-weight:600');
+const s6s=[0,1,2,3,4].map(i=>mk(s6,STAR([70,46,54,40,60][i],'s6'+i),'','t'));
+
+/* S7 · Conversations that open doors. */
+const s7=scene(28.8,33.75,(t)=>{
+  const out=33.25, u=eio((t-out)/.5), dr=clamp((t-30.6)/2.6);
+  put(s7k,{x:140,y:330-u*30,ax:'l',o:eo3((t-29)/.6)*(1-u)});
+  rv(s7a,t,29.1); put(s7a.d,{x:130,y:440-u*30,ax:'l',o:1-u,b:u*16});
+  rv(s7b,t,29.4,{st:.12}); put(s7b.d,{x:140,y:545-u*30,ax:'l',o:1-u,b:u*16});
+  land(s7p[0],t,29.2,{x:1340+15*dr,y:370,r:-4,fx:600,fy:-300,fr:-10,out,ox:600});
+  land(s7p[1],t,29.8,{x:1580-10*dr,y:760,r:5,fx:600,fy:300,fr:10,out,ox:600});
+  land(s7p[2],t,30.4,{x:890,y:820,r:-6,fy:500,fr:-10,out,oy:400});});
+const s7k=mk(s7,'NETWORKING &nbsp;·&nbsp; ROUND TABLES','','t chip');
+const s7a=words(s7,[['Conversations','g']],'font-size:118px;font-weight:600;letter-spacing:-.05em');
+const s7b=words(s7,[['that'],['open'],['doors.']],'font-size:84px;font-weight:500');
+const s7p=[card(s7,'p7',760,507),card(s7,'p26',560,420),card(s7,'p6',500,375)];
+
+/* S8 · One community. One story.  (the full group photo grows to fill the frame) */
+const s8=scene(33.5,38.65,(t)=>{
+  const u=eio((t-38.0)/.6);
+  const a=land(s8a,t,33.65,{x:CX,y:540,s0:.86,fy:80,kbs:1.1});
+  const g=eio5((t-35.35)/.85);
+  const w=lerp(620,W,g), h=lerp(349,H,g);
+  s8b.style.width=w.toFixed(1)+'px'; s8b.style.height=h.toFixed(1)+'px';
+  s8b.style.borderWidth=(10*(1-g)).toFixed(2)+'px'; s8b.style.borderRadius=(22*(1-g)).toFixed(2)+'px';
+  put(s8b,{x:CX,y:540+lerp(160,0,g),r:lerp(-4,0,g),s:1+.04*u,o:clamp((t-35.2)*4)*(1-u),b:u*20});
+  kb(s8b,1.0+.06*clamp((t-36)/2.6));
+  s8v.style.opacity=eo3((t-36.2)/.8).toFixed(3);
+  rv(s8t1,t,36.45,{dx:50}); put(s8t1.d,{x:140,y:800,ax:'l',o:1-u,b:u*16});
+  rv(s8t2,t,36.85,{dx:50}); put(s8t2.d,{x:140,y:930,ax:'l',o:1-u,b:u*16});
+  s8a.style.display=g>=1?'none':s8a.style.display;});
+const s8a=card(s8,'p20',1180,787);
+const s8b=card(s8,'p1',620,349,'50% 40%');
+const s8v=mk(s8b,'','position:absolute;left:0;top:0;width:100%;height:100%;background:linear-gradient(180deg,rgba(8,40,80,0) 40%,rgba(8,40,80,.78) 100%)');
+const s8t1=words(s8,[['One'],['community.']],'font-size:118px;font-weight:600;color:#fff;text-shadow:0 6px 30px rgba(0,20,60,.35)');
+const s8t2=words(s8,[['One'],['story.']],'font-size:118px;font-weight:300;color:#A9DAFF;text-shadow:0 6px 30px rgba(0,20,60,.35)');
+
+/* S9 · Every event has a story. We capture it. → FuturisticBD */
+const s9=scene(38.1,T+1,(t)=>{
+  const ta=Math.min(t,HOLD);
+  const o1=eio((ta-40.5)/.4);
+  rv(s9a,ta,38.5,{st:.1}); put(s9a.d,{x:CX,y:470,o:1-o1,b:o1*18});
+  rv(s9b,ta,39.25,{st:.2,d:.9,dx:60,bl:26}); put(s9b.d,{x:CX,y:620,o:1-o1,b:o1*18});
+  const f=SPR(ta-40.85,9,.6);
+  put(s9r,{x:CX,y:330,s:.4+.9*eo3((ta-40.85)/1.2),o:(1-eo3((ta-40.85)/1.2))*.7*(ta>40.85)});
+  put(s9f,{x:CX,y:330,s:lerp(.5,1,f)*(1+.012*clamp((ta-41.6)/2)),o:clamp((ta-40.85)*4),b:(1-clamp(f))*20});
+  put(s9w,{x:CX,y:560,o:eo3((ta-41.2)/.6),b:(1-eo3((ta-41.2)/.6))*14,s:lerp(1.06,1,eo3((ta-41.2)/.8))});
+  rv(s9g,ta,41.5,{st:.07,dx:20,bl:10}); put(s9g.d,{x:CX,y:642});
+  const c=SPR(ta-41.9,11,.55);
+  put(s9c,{x:CX,y:765,s:lerp(.6,1,c),o:clamp((ta-41.9)*5)});
+  put(s9u,{x:CX,y:885,o:eo3((ta-42.3)/.6),b:(1-eo3((ta-42.3)/.6))*10});});
+const s9a=words(s9,[['Every'],['event'],['has'],['a'],['story.']],'font-size:92px;font-weight:500;color:#5E7190');
+const s9b=words(s9,[['We'],['capture'],['it.','g']],'font-size:150px;font-weight:700;letter-spacing:-.055em');
+const s9r=mk(s9,'','width:420px;height:420px;border-radius:50%;border:3px solid rgba(98,188,255,.8)','t');
+const s9f=mk(s9,`<img src="${IMG.flame}" style="display:block;height:300px">`,'filter:drop-shadow(0 30px 40px rgba(8,66,104,.2))','t');
+const s9w=mk(s9,`<img src="${IMG.word}" style="display:block;height:78px">`,'','t');
+const s9g=words(s9,[['EVENT'],['COVERAGE'],['·'],['PHOTOGRAPHY'],['·'],['VIDEOGRAPHY'],['·'],['STORYTELLING']],'font-family:Geist Mono,monospace;letter-spacing:.16em;font-size:22px;color:#084268');
+const s9c=mk(s9,'Book your event coverage &nbsp;→',`font-size:40px;font-weight:600;letter-spacing:-.02em;color:#fff;padding:24px 50px;border-radius:999px;background:${GRAD};box-shadow:0 30px 60px -24px rgba(28,111,224,.6)`,'t');
+const s9u=mk(s9,`<img src="${IMG.url}" style="display:block;height:38px">`,'','t');
+
+/* ================= viewfinder overlay ================= */
+const VF=mk(S,'','width:1920px;height:1080px;z-index:30','S');
+const corner=(x,y,bt,bl)=>mk(VF,'',`left:${x}px;top:${y}px;width:64px;height:64px;border-${bt}:4px solid rgba(28,111,224,.7);border-${bl}:4px solid rgba(28,111,224,.7);border-radius:${bt=='top'&&bl=='left'?'10px 0 0 0':bt=='top'?'0 10px 0 0':bl=='left'?'0 0 0 10px':'0 0 10px 0'}`);
+corner(40,40,'top','left');corner(1816,40,'top','right');corner(40,976,'bottom','left');corner(1816,976,'bottom','right');
+const vBug=mk(VF,`<div style="display:flex;align-items:center;gap:14px"><img src="${IMG.flame}" style="height:40px;display:block"><span class="mono" style="font-size:19px;color:#084268">FUTURISTIC BD</span></div>`,'left:120px;top:58px;padding:8px 20px 8px 14px;border-radius:999px;background:rgba(255,255,255,.82);box-shadow:0 0 0 1.5px rgba(98,188,255,.5) inset');
+const vRec=mk(VF,'','left:auto;right:120px;top:66px;font-size:19px;color:#084268;padding:10px 20px;border-radius:999px;background:rgba(255,255,255,.82);box-shadow:0 0 0 1.5px rgba(98,188,255,.5) inset','a mono');
+const vL=mk(VF,'CORPORATE OMNIBUS &nbsp;·&nbsp; CHATTOGRAM','left:120px;top:auto;bottom:60px;font-size:18px;padding:9px 18px','a chip');
+const vR=mk(VF,'','left:auto;top:auto;right:120px;bottom:60px;font-size:18px;padding:9px 18px','a chip');
+const flash=mk(S,'','width:1920px;height:1080px;z-index:50;background:radial-gradient(ellipse at 50% 45%,#fff 30%,#EAF4FF 100%)','S');
+const grain=mk(S,'',`left:-300px;top:-300px;width:2520px;height:1680px;z-index:60;opacity:.05;mix-blend-mode:multiply;background:url("${NOISE}")`);
+
+function seek(t){
+  const ta=Math.min(t,HOLD);
+  BLS[0].style.transform=`translate(${(1500+160*Math.sin(ta*.3)).toFixed(1)}px,${(200+120*Math.cos(ta*.27)).toFixed(1)}px)`;
+  BLS[1].style.transform=`translate(${(860+260*Math.sin(ta*.2+1)).toFixed(1)}px,${(560+140*Math.cos(ta*.18)).toFixed(1)}px)`;
+  BLS[2].style.transform=`translate(${(250+140*Math.cos(ta*.25)).toFixed(1)}px,${(950+100*Math.sin(ta*.23)).toFixed(1)}px)`;
+  dots.style.transform=`translate(${(-(ta*6)%44).toFixed(1)}px,0)`;
+  const gf=Math.floor(ta*30); grain.style.transform=`translate(${(gf*137)%300}px,${(gf*211)%300}px)`;
+  for(const s of SC){ const on=t>=s.a&&t<s.b; s.l.style.display=on?'':'none'; if(on) s.fn(t,s.l); }
+  // viewfinder
+  const vo=eo3((t-.5)/.6)*(1-eio((t-37.9)/.5)); show(VF,vo);
+  const f=Math.floor(ta*30), ss=Math.floor(ta), on=(ta%1)<.6;
+  vRec.innerHTML=`<span style="display:inline-block;width:13px;height:13px;border-radius:50%;background:#FF3B4E;margin-right:12px;vertical-align:1px;opacity:${on?1:.25}"></span>REC &nbsp;00:00:${String(ss).padStart(2,'0')}:${String(f%30).padStart(2,'0')}`;
+  const shots=FL.filter(x=>t>=x).length;
+  vR.innerHTML=`EVENT COVERAGE &nbsp;·&nbsp; SHOT ${String(shots).padStart(2,'0')}/${FL.length}`;
+  let fo=0; for(const x of FL){const k=t-x; if(k>=-.03&&k<.6) fo=Math.max(fo,(k<0?(k+.03)/.03:Math.exp(-k*9))*.62);} show(flash,fo);
+}
+window.seek=seek; window.DURATION=T; window.VW=W; window.VH=H;
+const RENDER=location.search.includes('render');
+document.body.classList.add(RENDER?'render':'preview');
+seek(0);
+if(!RENDER){const wr=document.getElementById('wrap');const fit=()=>{const k=Math.min(innerWidth/W,innerHeight/H);wr.style.transform=`scale(${k}) translate(-50%,-50%)`;wr.style.transformOrigin='0 0';};fit();addEventListener('resize',fit);
+  document.fonts.ready.then(()=>{const t0=performance.now();const loop=()=>{seek(((performance.now()-t0)/1000)%(T+.6));requestAnimationFrame(loop);};requestAnimationFrame(loop);});}
+</script></body></html>
